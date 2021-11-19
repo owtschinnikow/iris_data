@@ -16,7 +16,7 @@ metric_2_name = 'SEPAL WIDTH'
 metric_3_name = 'PETAL LENGTH'
 metric_4_name = 'PETAL WIDTH'
 
-metric_1_list = [['']*5 for i in range(15+11)]
+metric_1_list = [['']*5 for i in range(15+11+1)]
 metric_1_list[0][2] = title
 
 metric_1_list[1][1] = flowor_1
@@ -53,6 +53,7 @@ metric_1_list[14][0] = '>= 7'
 metric_1_list[23][0] = '< 3'
 metric_1_list[24][0] = '>=3 AND <3.5'
 metric_1_list[25][0] = '>=3.5 AND <4'
+metric_1_list[26][0] = '>= 4'
 
 dataframe = pandas.read_csv('iris_data.csv', header=None)
 
@@ -84,8 +85,6 @@ for dx, dy in [(0,0), (1,50), (2,100)]:
 # Использование функции .describe() .loc['mean'][0]
 # Расчёт для каждого вида 'count', 'mean', 'min', 'max', 'std' median
 for dx, df in [(0, 0), (1, 50), (2, 100)]:
-    # df_1 = dataframe[0+df:50+df].describe()
-    # print(df_1)
     metric_1_list[16][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['count'][1])
     metric_1_list[17][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['mean'][1])
     metric_1_list[18][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['min'][1])
@@ -98,8 +97,6 @@ for dx, df in [(0, 0), (1, 50), (2, 100)]:
 
 # Расчёт для общего количества 'count', 'mean', 'min', 'max', 'std' median
 for dx in [0, 12]:
-    # df_1 = dataframe[0:150].describe()
-    # print(df_1)
     metric_1_list[4 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['count'][0])
     metric_1_list[5 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['mean'][0])
     metric_1_list[6 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['min'][0])
@@ -107,11 +104,82 @@ for dx in [0, 12]:
     metric_1_list[8 + dx][4] = "{:.1f}".format(dataframe[0:150].median()[0])
     metric_1_list[9 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['std'][0])
 
+#Расчёт второй секции для S/L
+for dx, dy in [(0,0), (1, 50), (2, 100)]:
+    df_1 = dataframe[0][0+dy:50+dy]
+    quantity_less_5 = (df_1 < 5).sum()
+    percent_less_5 = quantity_less_5 / number_of_flowers * 100
+    metric_1_list[11][1+dx] = str(quantity_less_5) + ' (' + str(percent_less_5) + ')'
+
+    quantity_less_5_6 = ((5 <= df_1) * ( df_1 < 6) ).sum()
+    percent_less_5_6= quantity_less_5_6 / number_of_flowers * 100
+    metric_1_list[12][1+dx] = str(quantity_less_5_6) + ' (' + str(percent_less_5_6) + ')'
+
+    quantity_less_6_7 = ((6 <= df_1) * ( df_1 < 7) ).sum()
+    percent_less_6_7= quantity_less_6_7 / number_of_flowers * 100
+    metric_1_list[13][1+dx] = str(quantity_less_6_7) + ' (' + str(percent_less_6_7) + ')'
+
+    quantity_less_7 =  ( 7 <= df_1).sum()
+    percent_less_7= quantity_less_7 / number_of_flowers * 100
+    metric_1_list[14][1+dx] = str(quantity_less_7) + ' (' + str(percent_less_7) + ')'
+
+#Расчёт второй секции для S/L Total
+for dx, dy in [(3, 0)]:
+    df_1 = dataframe[0][0+dy:150+dy]
+    quantity_less_5 = (df_1 < 5).sum()
+    percent_less_5 = "{:.1f}".format(quantity_less_5 / (number_of_flowers*3) * 100)
+    metric_1_list[11][1+dx] = str(quantity_less_5) + ' (' + str(percent_less_5) + ')'
+
+    quantity_less_5_6 = ((5 <= df_1) * ( df_1 < 6) ).sum()
+    percent_less_5_6= "{:.1f}".format(quantity_less_5_6 / (number_of_flowers*3) * 100)
+    metric_1_list[12][1+dx] = str(quantity_less_5_6) + ' (' + str(percent_less_5_6) + ')'
+
+    quantity_less_6_7 = ((6 <= df_1) * ( df_1 < 7) ).sum()
+    percent_less_6_7= "{:.1f}".format(quantity_less_6_7 / (number_of_flowers*3) * 100)
+    metric_1_list[13][1+dx] = str(quantity_less_6_7) + ' (' + str(percent_less_6_7) + ')'
+
+    quantity_less_7 =  ( 7 <= df_1).sum()
+    percent_less_7= "{:.1f}".format(quantity_less_7 / (number_of_flowers*3) * 100)
+    metric_1_list[14][1+dx] = (str(quantity_less_7) + ' (' + str(percent_less_7) + ')')
+
+#Расчёт второй секции для S/W
+for dx, dy in [(0,0), (1, 50), (2, 100)]:
+    df_1 = dataframe[1][0+dy:50+dy]
+    quantity_less_3 = (df_1 < 3).sum()
+    percent_less_3 = quantity_less_3 / number_of_flowers * 100
+    metric_1_list[23][1+dx] = str(quantity_less_3) + ' (' + str(percent_less_3) + ')'
+
+    quantity_less_3_35 = ((3 <= df_1) * ( df_1 < 3.5) ).sum()
+    percent_less_3_35= quantity_less_3_35 / number_of_flowers * 100
+    metric_1_list[24][1+dx] = str(quantity_less_3_35) + ' (' + str(percent_less_3_35) + ')'
+
+    quantity_less_35_4 = ((3.5 <= df_1) * ( df_1 < 4) ).sum()
+    percent_less_35_4= quantity_less_35_4 / number_of_flowers * 100
+    metric_1_list[25][1+dx] = str(quantity_less_35_4) + ' (' + str(percent_less_35_4) + ')'
+
+    quantity_less_4 = ((4 <= df_1) ).sum()
+    percent_less_4= quantity_less_4 / number_of_flowers * 100
+    metric_1_list[26][1+dx] = str(quantity_less_4) + ' (' + str(percent_less_4) + ')'
 
 
-# for i in range(2):
-#     metric_1_list[8][1+i] = dataframe[0:50].median()[i]
+#Расчёт второй секции для S/W Total
+for dx, dy in [(3, 0)]:
+    df_1 = dataframe[1][0+dy:150+dy]
+    quantity_less_3 = (df_1 < 3).sum()
+    percent_less_3 = "{:.1f}".format(quantity_less_3 / (number_of_flowers*3) * 100)
+    metric_1_list[23][1+dx] = str(quantity_less_3) + ' (' + str(percent_less_3) + ')'
 
+    quantity_less_3_35 = ((3 <= df_1) * ( df_1 < 3.5) ).sum()
+    percent_less_3_35= "{:.1f}".format(quantity_less_3_35 / (number_of_flowers*3) * 100)
+    metric_1_list[24][1+dx] = str(quantity_less_3_35) + ' (' + str(percent_less_3_35) + ')'
+
+    quantity_less_35_4 = ((3.5 <= df_1) * ( df_1 < 4) ).sum()
+    percent_less_35_4= "{:.1f}".format(quantity_less_35_4 / (number_of_flowers*3) * 100)
+    metric_1_list[25][1+dx] = str(quantity_less_35_4) + ' (' + str(percent_less_35_4) + ')'
+
+    quantity_less_4 = ((4 <= df_1) ).sum()
+    percent_less_4= "{:.1f}".format(quantity_less_4 / (number_of_flowers*3) * 100)
+    metric_1_list[26][1+dx] = str(quantity_less_4) + ' (' + str(percent_less_4) + ')'
 
 
 df = pandas.DataFrame(metric_1_list)
