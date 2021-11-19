@@ -1,24 +1,18 @@
 import pandas
-from docutils.parsers.rst.directives.misc import Title
 
+#Базовые названия
 title = 'Iris Flower Summary'
-
-
 flowor_1 = 'Iris-setosa'
 flowor_2 = 'Iris-versicolor'
 flowor_3 = 'Iris-virginica'
 total = 'Total'
-
 number_of_flowers = 50
 
-metric_1_name = 'SEPAL LENGTH'
-metric_2_name = 'SEPAL WIDTH'
-metric_3_name = 'PETAL LENGTH'
-metric_4_name = 'PETAL WIDTH'
-
+#Формирование массива
 metric_1_list = [['']*5 for i in range(15+11+1)]
-metric_1_list[0][2] = title
 
+#Заполнение массива полями
+metric_1_list[0][2] = title
 metric_1_list[1][1] = flowor_1
 metric_1_list[1][2] = flowor_2
 metric_1_list[1][3] = flowor_3
@@ -33,17 +27,17 @@ metric_1_list[4][4] = f'{number_of_flowers*3}'
 
 for dy in [0, 12]:
     if dy == 0:
-        metric_1_list[3 + dy][0] = 'S/L [CM]'#'Sepal Lenght [CM]'
-        metric_1_list[10+ dy][0] = 'S/L (%) '  # 'SEPAL LENGTH (%) '
+        metric_1_list[3 + dy][0] = 'SEPAL LENGTH [CM]'#'Sepal Lenght [CM]'
+        metric_1_list[10+ dy][0] = 'SEPAL LENGTH (%) '  # 'SEPAL LENGTH (%) '
     elif dy == 12:
-        metric_1_list[3 + dy][0] = 'S/W [CM]'#'Sepal Lenght [CM]'
-        metric_1_list[10+ dy][0] = 'S/W (%)'  # 'SEPAL LENGTH (%) '
+        metric_1_list[3 + dy][0] = 'SEPAL WIDTH [CM]'#'Sepal Lenght [CM]'
+        metric_1_list[10+ dy][0] = 'SEPAL WIDTH (%)'  # 'SEPAL LENGTH (%) '
     metric_1_list[4 + dy][0] = 'N'
     metric_1_list[5 + dy][0] = 'MEAN'
     metric_1_list[6 + dy][0] = 'MIN'
     metric_1_list[7 + dy][0] = 'MAX '
     metric_1_list[8 + dy][0] = 'MEDIAN'
-    metric_1_list[9 + dy][0] = 'S/D'#'STANDARD DEVIATION'
+    metric_1_list[9 + dy][0] = 'STANDARD DEVIATION'
 
 metric_1_list[11][0] = '< 5'
 metric_1_list[12][0] = '>=5 AND <6'
@@ -53,12 +47,13 @@ metric_1_list[14][0] = '>= 7'
 metric_1_list[23][0] = '< 3'
 metric_1_list[24][0] = '>=3 AND <3.5'
 metric_1_list[25][0] = '>=3.5 AND <4'
-metric_1_list[26][0] = '>= 4'
+metric_1_list[26][0] = '>= 4'  # Не было в задании, добавлено для красоты таблицы.
 
+# Подгрузка данных из файла.
 dataframe = pandas.read_csv('iris_data.csv', header=None)
 
 
-# ПРЕДПОЛОЖИТЕЛЬНО более быстрый расчёт по сравнению со стандартным методом
+# ПРЕДПОЛОЖИТЕЛЬНО более быстрый расчёт среднего, минимума, максимума по сравнению со стандартными методами
 for dx, dy in [(0,0), (1,50), (2,100)]:
     for i in range(0, number_of_flowers):
         # вычисление среднего
@@ -82,7 +77,7 @@ for dx, dy in [(0,0), (1,50), (2,100)]:
 
 # dataframe.median(axis=None, skipna=None, level=None, numeric_only=None, **kwargs)
 
-# Использование функции .describe() .loc['mean'][0]
+# Использование стандартных функций .describe() .loc['mean'][0] и тд...
 # Расчёт для каждого вида 'count', 'mean', 'min', 'max', 'std' median
 for dx, df in [(0, 0), (1, 50), (2, 100)]:
     metric_1_list[16][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['count'][1])
@@ -181,10 +176,10 @@ for dx, dy in [(3, 0)]:
     percent_less_4= "{:.1f}".format(quantity_less_4 / (number_of_flowers*3) * 100)
     metric_1_list[26][1+dx] = str(quantity_less_4) + ' (' + str(percent_less_4) + ')'
 
-
+# Генерация массива из списка.
 df = pandas.DataFrame(metric_1_list)
-print(df)
 
-df.to_csv('iris-flowers.txt', sep='\t', index = False, header = False )
+# Выгрузка в файл.
+df.to_latex('iris-flowers.txt', index = False, header = False)
 
 
