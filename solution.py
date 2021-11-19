@@ -73,31 +73,33 @@ for dx, dy in [(0,0), (1,50), (2,100)]:
         if metric_1_list[7][1 + dx] <= dataframe[0][i + dy]:
             metric_1_list[7][1 + dx] = dataframe[0][i + dy]
 
-    metric_1_list[5][1 + dx] = "{:.1f}".format(metric_1_list[5][1 + dx]/number_of_flowers)  # вычисление среднего
+    metric_1_list[5][1 + dx] = "{:.2f}".format(metric_1_list[5][1 + dx]/number_of_flowers)  # вычисление среднего
+    metric_1_list[6][1 + dx] = "{:.2f}".format(metric_1_list[6][1 + dx])  # вычисление минимума
+    metric_1_list[7][1 + dx] = "{:.2f}".format(metric_1_list[6][1 + dx])
 
 # dataframe.median(axis=None, skipna=None, level=None, numeric_only=None, **kwargs)
 
 # Использование стандартных функций .describe() .loc['mean'][0] и тд...
 # Расчёт для каждого вида 'count', 'mean', 'min', 'max', 'std' median
 for dx, df in [(0, 0), (1, 50), (2, 100)]:
-    metric_1_list[16][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['count'][1])
-    metric_1_list[17][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['mean'][1])
-    metric_1_list[18][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['min'][1])
-    metric_1_list[19][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['max'][1])
-    metric_1_list[20][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].median()[1])
-    metric_1_list[21][1+dx] = "{:.1f}".format(dataframe[0+df:50+df].describe().loc['std'][1])
+    metric_1_list[16][1+dx] = "{:.0f}".format(dataframe[0+df:50+df].describe().loc['count'][1])
+    metric_1_list[17][1+dx] = "{:.2f}".format(dataframe[0+df:50+df].describe().loc['mean'][1])
+    metric_1_list[18][1+dx] = "{:.2f}".format(dataframe[0+df:50+df].describe().loc['min'][1])
+    metric_1_list[19][1+dx] = "{:.2f}".format(dataframe[0+df:50+df].describe().loc['max'][1])
+    metric_1_list[20][1+dx] = "{:.2f}".format(dataframe[0+df:50+df].median()[1])
+    metric_1_list[21][1+dx] = "{:.2f}".format(dataframe[0+df:50+df].describe().loc['std'][1])
 
-    metric_1_list[8][1 + dx] = "{:.1f}".format(dataframe[0 + df:50 + df].median()[0])
-    metric_1_list[9][1 + dx] = "{:.1f}".format(dataframe[0 + df:50 + df].describe().loc['std'][0])
+    metric_1_list[8][1 + dx] = "{:.2f}".format(dataframe[0 + df:50 + df].median()[0])
+    metric_1_list[9][1 + dx] = "{:.2f}".format(dataframe[0 + df:50 + df].describe().loc['std'][0])
 
 # Расчёт для общего количества 'count', 'mean', 'min', 'max', 'std' median
 for dx in [0, 12]:
-    metric_1_list[4 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['count'][0])
-    metric_1_list[5 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['mean'][0])
-    metric_1_list[6 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['min'][0])
-    metric_1_list[7 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['max'][0])
-    metric_1_list[8 + dx][4] = "{:.1f}".format(dataframe[0:150].median()[0])
-    metric_1_list[9 + dx][4] = "{:.1f}".format(dataframe[0:150].describe().loc['std'][0])
+    metric_1_list[4 + dx][4] = "{:.0f}".format(dataframe[0:150].describe().loc['count'][0])
+    metric_1_list[5 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['mean'][0])
+    metric_1_list[6 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['min'][0])
+    metric_1_list[7 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['max'][0])
+    metric_1_list[8 + dx][4] = "{:.2f}".format(dataframe[0:150].median()[0])
+    metric_1_list[9 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['std'][0])
 
 #Расчёт второй секции для S/L
 for dx, dy in [(0,0), (1, 50), (2, 100)]:
