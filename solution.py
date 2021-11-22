@@ -92,15 +92,16 @@ for dx, df in [(0, 0), (1, 50), (2, 100)]:
     metric_1_list[8][1 + dx] = "{:.2f}".format(dataframe[0 + df:50 + df].median()[0])
     metric_1_list[9][1 + dx] = "{:.2f}".format(dataframe[0 + df:50 + df].describe().loc['std'][0])
 
-# Расчёт для общего количества 'count', 'mean', 'min', 'max', 'std' median
-for dx in [0, 12]:
-    metric_1_list[4 + dx][4] = "{:.0f}".format(dataframe[0:150].describe().loc['count'][0])
-    metric_1_list[5 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['mean'][0])
-    metric_1_list[6 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['min'][0])
-    metric_1_list[7 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['max'][0])
-    metric_1_list[8 + dx][4] = "{:.2f}".format(dataframe[0:150].median()[0])
-    metric_1_list[9 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['std'][0])
+# Расчёт для общего количества для S/L S/W 'count', 'mean', 'min', 'max', 'std' median
+for dx, dy in [(0, 0), (12, 1)]:
+    metric_1_list[4 + dx][4] = "{:.0f}".format(dataframe[0:150].describe().loc['count'][0 + dy])
+    metric_1_list[5 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['mean'][0 + dy])
+    metric_1_list[6 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['min'][0 + dy])
+    metric_1_list[7 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['max'][0 + dy])
+    metric_1_list[8 + dx][4] = "{:.2f}".format(dataframe[0:150].median()[0 + dy])
+    metric_1_list[9 + dx][4] = "{:.2f}".format(dataframe[0:150].describe().loc['std'][0 + dy])
 
+"""
 #Расчёт второй секции для S/L
 for dx, dy in [(0,0), (1, 50), (2, 100)]:
     df_1 = dataframe[0][0+dy:50+dy]
@@ -119,7 +120,9 @@ for dx, dy in [(0,0), (1, 50), (2, 100)]:
     quantity_less_7 =  ( 7 <= df_1).sum()
     percent_less_7= quantity_less_7 / number_of_flowers * 100
     metric_1_list[14][1+dx] = str(quantity_less_7) + ' (' + str(percent_less_7) + ')'
+"""
 
+"""
 #Расчёт второй секции для S/L Total
 for dx, dy in [(3, 0)]:
     df_1 = dataframe[0][0+dy:150+dy]
@@ -138,7 +141,9 @@ for dx, dy in [(3, 0)]:
     quantity_less_7 =  ( 7 <= df_1).sum()
     percent_less_7= "{:.1f}".format(quantity_less_7 / (number_of_flowers*3) * 100)
     metric_1_list[14][1+dx] = (str(quantity_less_7) + ' (' + str(percent_less_7) + ')')
+"""
 
+"""
 #Расчёт второй секции для S/W
 for dx, dy in [(0,0), (1, 50), (2, 100)]:
     df_1 = dataframe[1][0+dy:50+dy]
@@ -157,8 +162,9 @@ for dx, dy in [(0,0), (1, 50), (2, 100)]:
     quantity_less_4 = ((4 <= df_1) ).sum()
     percent_less_4= quantity_less_4 / number_of_flowers * 100
     metric_1_list[26][1+dx] = str(quantity_less_4) + ' (' + str(percent_less_4) + ')'
+"""
 
-
+"""
 #Расчёт второй секции для S/W Total
 for dx, dy in [(3, 0)]:
     df_1 = dataframe[1][0+dy:150+dy]
@@ -177,9 +183,52 @@ for dx, dy in [(3, 0)]:
     quantity_less_4 = ((4 <= df_1) ).sum()
     percent_less_4= "{:.1f}".format(quantity_less_4 / (number_of_flowers*3) * 100)
     metric_1_list[26][1+dx] = str(quantity_less_4) + ' (' + str(percent_less_4) + ')'
+"""
+
+# Границы диапазонов
+border_values_sepal_length = [5, 6, 7]
+border_values_sepal_width = [3, 3.5, 4]
+
+def second_section(table_results:list, start_cell_table_results:int, border_values:list, data_frame_number:int):
+    """
+    Функция заполняет таблицу с диапазонами от каждой метрики
+    :param table_results: таблица для записи результатов
+    :param start_cell_table_results: начальная ячейка заполнения
+    :param border_values: список значений диапазонов
+    :param data_frame_number: диапазон исходных данных
+    :return:
+    """
+    quantity_less_summ = [0, 0, 0, 0]
+    for dx, dy in enumerate([0, 50, 100]):
+        df_1 = dataframe[data_frame_number][0 + dy:50 + dy]
+        quantity_less_0 = (df_1 < border_values[0]).sum()
+        table_results[start_cell_table_results][1 + dx] = str(quantity_less_0) + ' (' + str(quantity_less_0 / number_of_flowers * 100) + ')'
+        quantity_less_summ[0] += quantity_less_0
+
+        quantity_less_1 = ((border_values[0] <= df_1) * (df_1 < border_values[1])).sum()
+        table_results[start_cell_table_results + 1][1 + dx] = str(quantity_less_1) + ' (' + str(quantity_less_1 / number_of_flowers * 100) + ')'
+        quantity_less_summ[1] += quantity_less_1
+
+        quantity_less_2 = ((border_values[1] <= df_1) * (df_1 < border_values[2])).sum()
+        table_results[start_cell_table_results + 2][1 + dx] = str(quantity_less_2) + ' (' + str(quantity_less_2 / number_of_flowers * 100) + ')'
+        quantity_less_summ[2] += quantity_less_2
+
+        quantity_less_3 = (border_values[2] <= df_1).sum()
+        table_results[start_cell_table_results + 3][1 + dx] = str(quantity_less_3) + ' (' + str(quantity_less_3 / number_of_flowers * 100) + ')'
+        quantity_less_summ[3] += quantity_less_3
+
+    # total
+    for i, summ in enumerate(quantity_less_summ):
+        table_results[start_cell_table_results + i][4] = str(summ) + ' (' + str("{:.1f}".format(summ / (number_of_flowers * 3) * 100)) + ')'
+
+
+second_section(metric_1_list, 11, border_values_sepal_length, 0)
+second_section(metric_1_list, 23, border_values_sepal_width, 1)
+
 
 # Генерация массива из списка.
 df = pandas.DataFrame(metric_1_list)
+print(df)
 
 # Выгрузка в файл.
 df.to_latex('iris-flowers.txt', index = False, header = False)
