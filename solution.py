@@ -75,7 +75,7 @@ for dx, dy in [(0,0), (1,50), (2,100)]:
 
     metric_1_list[5][1 + dx] = "{:.2f}".format(metric_1_list[5][1 + dx]/number_of_flowers)  # вычисление среднего
     metric_1_list[6][1 + dx] = "{:.2f}".format(metric_1_list[6][1 + dx])  # вычисление минимума
-    metric_1_list[7][1 + dx] = "{:.2f}".format(metric_1_list[6][1 + dx])
+    metric_1_list[7][1 + dx] = "{:.2f}".format(metric_1_list[7][1 + dx])
 
 # dataframe.median(axis=None, skipna=None, level=None, numeric_only=None, **kwargs)
 
