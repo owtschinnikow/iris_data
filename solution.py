@@ -203,19 +203,19 @@ def second_section(table_results:list, start_cell_table_results:int, border_valu
         df_1 = dataframe[data_frame_number][0 + dy:50 + dy]
         quantity_less_0 = (df_1 < border_values[0]).sum()
         table_results[start_cell_table_results][1 + dx] = str(quantity_less_0) + ' (' + str(quantity_less_0 / number_of_flowers * 100) + ')'
-        quantity_less_summ[0] += quantity_less_0
+        quantity_less_summ[dx] += quantity_less_0
 
         quantity_less_1 = ((border_values[0] <= df_1) * (df_1 < border_values[1])).sum()
         table_results[start_cell_table_results + 1][1 + dx] = str(quantity_less_1) + ' (' + str(quantity_less_1 / number_of_flowers * 100) + ')'
-        quantity_less_summ[1] += quantity_less_1
+        quantity_less_summ[dx] += quantity_less_1
 
         quantity_less_2 = ((border_values[1] <= df_1) * (df_1 < border_values[2])).sum()
         table_results[start_cell_table_results + 2][1 + dx] = str(quantity_less_2) + ' (' + str(quantity_less_2 / number_of_flowers * 100) + ')'
-        quantity_less_summ[2] += quantity_less_2
+        quantity_less_summ[dx] += quantity_less_2
 
         quantity_less_3 = (border_values[2] <= df_1).sum()
         table_results[start_cell_table_results + 3][1 + dx] = str(quantity_less_3) + ' (' + str(quantity_less_3 / number_of_flowers * 100) + ')'
-        quantity_less_summ[3] += quantity_less_3
+        quantity_less_summ[dx] += quantity_less_3
 
     # total
     for i, summ in enumerate(quantity_less_summ):
